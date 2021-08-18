@@ -39,4 +39,24 @@ for images, labels in train_dataset.take(1):
         plt.title(class_names[labels[i]])
         plt.axis("off")
 
+# Preprocess and Augment Training Data
+AUTOTUNE = tf.data.experimental.AUTOTUNE
+train_dataset = train_dataset.prefetch(buffer_size=AUTOTUNE)
+
+#  data_augmenter : function for data augmentation. Uses a Sequential keras model composed of 2 layers
+
+def data_augmenter():
+    '''
+    Create a Sequential model composed of 2 layers
+    Returns:
+        tf.keras.Sequential
+    '''
+
+    data_augmentation = tf.keras.Sequential()
+    data_augmentation.add(RandomFlip('horizontal'))
+    data_augmentation.add(RandomRotation(0.2))
+
+    return data_augmentation
+
+
 
