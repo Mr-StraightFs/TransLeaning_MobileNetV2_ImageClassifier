@@ -179,3 +179,8 @@ plt.ylim([0,1.0])
 plt.title('Training and Validation Loss')
 plt.xlabel('epoch')
 plt.show()
+
+# Fine - tuning the Model : re-running the optimizer in the last layers to improve accuracy.
+# to do so , we ll unfreeze the final layers and re-run the optimizer with a smaller learning rate,
+# while keeping all the other layers frozen
+
