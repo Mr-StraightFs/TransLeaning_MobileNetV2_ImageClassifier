@@ -205,3 +205,39 @@ model2.compile(loss=loss_function,
                optimizer=optimizer,
                metrics=metrics)
 
+# Training the Fine-tuned Model
+fine_tune_epochs = 5
+total_epochs =  initial_epochs + fine_tune_epochs
+
+history_fine = model2.fit(train_dataset,
+                         epochs=total_epochs,
+                         initial_epoch=history.epoch[-1],
+                         validation_data=validation_dataset)
+
+# Plotting the loss vs Accuracy before and after Fine-Tuning
+acc += history_fine.history['accuracy']
+val_acc += history_fine.history['val_accuracy']
+
+loss += history_fine.history['loss']
+val_loss += history_fine.history['val_loss']
+
+plt.figure(figsize=(8, 8))
+plt.subplot(2, 1, 1)
+plt.plot(acc, label='Training Accuracy')
+plt.plot(val_acc, label='Validation Accuracy')
+plt.ylim([0, 1])
+plt.plot([initial_epochs-1,initial_epochs-1],
+          plt.ylim(), label='Start Fine Tuning')
+plt.legend(loc='lower right')
+plt.title('Training and Validation Accuracy')
+
+plt.subplot(2, 1, 2)
+plt.plot(loss, label='Training Loss')
+plt.plot(val_loss, label='Validation Loss')
+plt.ylim([0, 1.0])
+plt.plot([initial_epochs-1,initial_epochs-1],
+         plt.ylim(), label='Start Fine Tuning')
+plt.legend(loc='upper right')
+plt.title('Training and Validation Loss')
+plt.xlabel('epoch')
+plt.show()
