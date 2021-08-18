@@ -58,5 +58,16 @@ def data_augmenter():
 
     return data_augmentation
 
+# Visualizing the diffrent Augmentations on a sample image from the dataset
+data_augmentation = data_augmenter()
+
+for image, _ in train_dataset.take(1):
+    plt.figure(figsize=(10, 10))
+    first_image = image[0]
+    for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        augmented_image = data_augmentation(tf.expand_dims(first_image, 0))
+        plt.imshow(augmented_image[0] / 255)
+        plt.axis('off')
 
 
