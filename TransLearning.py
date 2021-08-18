@@ -183,4 +183,25 @@ plt.show()
 # Fine - tuning the Model : re-running the optimizer in the last layers to improve accuracy.
 # to do so , we ll unfreeze the final layers and re-run the optimizer with a smaller learning rate,
 # while keeping all the other layers frozen
+base_model = model2.layers[4]
+base_model.trainable = True
+# Let's take a look to see how many layers are in the base model
+print("Number of layers in the base model: ", len(base_model.layers))
+
+# Fine-tune from this layer onwards
+fine_tune_at = 120
+
+# Freeze all the layers before the `fine_tune_at` layer
+for layer in base_model.layers[:fine_tune_at]:
+    layer.trainable = False
+
+# Define a BinaryCrossentropy loss function. Use from_logits=True
+loss_function = tf.keras.losses.BinaryCrossentropy(from_logits=True)
+# Define an Adam optimizer with a learning rate of 0.1 * base_learning_rate
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.1 * base_learning_rate)
+# Use accuracy as evaluation metric
+metrics = ['accuracy']
+model2.compile(loss=loss_function,
+               optimizer=optimizer,
+               metrics=metrics)
 
