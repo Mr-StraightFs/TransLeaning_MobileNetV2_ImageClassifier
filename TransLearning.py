@@ -70,4 +70,14 @@ for image, _ in train_dataset.take(1):
         plt.imshow(augmented_image[0] / 255)
         plt.axis('off')
 
+# Using MobileNetV2 for Transfer Learning
+preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
+
+IMG_SHAPE = IMG_SIZE + (3,) # Define teh Image size to pass to the pretrained MobileV2
+
+# Load the pretrained Model with the weights of learned from the imagenet dataset
+base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
+                                               include_top=True,
+                                               weights='imagenet')
+
 
